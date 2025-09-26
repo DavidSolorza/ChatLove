@@ -87,7 +87,6 @@ function App() {
         <AppRoutes />
       </Router>
     </ThemeProvider>
-    </Router>
   );
 }
 
