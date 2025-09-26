@@ -8,7 +8,8 @@ export const ROUTES = {
   VIDEOCALL: '/videocall',
   TIMELINE: '/timeline',
   AI: '/ai-space',
-  SETTINGS: '/settings'
+  SETTINGS: '/settings',
+  INVITE_PARTNER: '/invite-partner'
 };
 
 export const COLORS = {

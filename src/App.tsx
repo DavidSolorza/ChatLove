@@ -12,6 +12,7 @@ import VideoCall from './pages/VideoCall';
 import Timeline from './pages/Timeline';
 import AISpace from './pages/AISpace';
 import Settings from './pages/Settings';
+import InvitePartner from './pages/InvitePartner';
 
 // Componente interno que usa el hook de autenticación
 const AppRoutes: React.FC = () => {
@@ -63,6 +64,10 @@ const AppRoutes: React.FC = () => {
           
           <Route path={ROUTES.SETTINGS} element={
             isAuthenticated ? <Settings /> : <Navigate to={ROUTES.LOGIN} replace />
+          } />
+          
+          <Route path={ROUTES.INVITE_PARTNER} element={
+            isAuthenticated ? <InvitePartner /> : <Navigate to={ROUTES.LOGIN} replace />
           } />
 
           {/* Ruta por defecto */}

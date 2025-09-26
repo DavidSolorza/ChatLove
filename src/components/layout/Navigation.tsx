@@ -1,16 +1,21 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { MessageCircle, Camera, Video, BookOpen, Sparkles } from 'lucide-react';
+import { MessageCircle, Camera, Video, BookOpen, Sparkles, UserPlus } from 'lucide-react';
 import { ROUTES } from '../../utils/constants';
+import { useAuth } from '../../hooks/useAuth';
 
 // Navegación principal de la aplicación
 const Navigation: React.FC = () => {
+  const { user } = useAuth();
+  
   const navigationItems = [
     { path: ROUTES.CHAT, icon: MessageCircle, label: 'Chat' },
     { path: ROUTES.ALBUM, icon: Camera, label: 'Álbum' },
     { path: ROUTES.VIDEOCALL, icon: Video, label: 'Video' },
     { path: ROUTES.TIMELINE, icon: BookOpen, label: 'Timeline' },
-    { path: ROUTES.AI, icon: Sparkles, label: 'IA' }
+    { path: ROUTES.AI, icon: Sparkles, label: 'IA' },
+    // Mostrar invitar pareja solo si no tiene pareja
+    ...(user && !user.partnerId ? [{ path: ROUTES.INVITE_PARTNER, icon: UserPlus, label: 'Invitar' }] : [])
   ];
 
   return (

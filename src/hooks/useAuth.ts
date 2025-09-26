@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { authService } from '../services/authService';
 
 interface User {
   id: string;
   name: string;
   email: string;
-  avatar?: string;
+  partnerId: string | null;
+  partnerEmail: string | null;
 }
 
 interface AuthState {
@@ -22,30 +24,15 @@ export const useAuth = () => {
   });
 
   useEffect(() => {
-    // Simular verificación de token al cargar la app
     const checkAuth = async () => {
       try {
-        const token = localStorage.getItem('authToken');
-        if (token) {
-          // Aquí se verificaría el token con el backend
-          const mockUser: User = {
-            id: 'user1',
-            name: 'María',
-            email: 'maria@example.com'
-          };
-          
-          setAuthState({
-            user: mockUser,
-            isAuthenticated: true,
-            isLoading: false
-          });
-        } else {
-          setAuthState({
-            user: null,
-            isAuthenticated: false,
-            isLoading: false
-          });
-        }
+        const user = await authService.verifySession();
+        
+        setAuthState({
+          user,
+          isAuthenticated: !!user,
+          isLoading: false
+        });
       } catch (error) {
         console.error('Error verificando autenticación:', error);
         setAuthState({
@@ -61,19 +48,10 @@ export const useAuth = () => {
 
   const login = async (email: string, password: string) => {
     try {
-      // Aquí se haría la llamada al backend
-      console.log('Login:', { email, password });
+      const user = await authService.login(email, password);
       
-      // Simular respuesta exitosa
-      const mockUser: User = {
-        id: 'user1',
-        name: 'María',
-        email
-      };
-      
-      localStorage.setItem('authToken', 'mock-token');
       setAuthState({
-        user: mockUser,
+        user,
         isAuthenticated: true,
         isLoading: false
       });
@@ -87,18 +65,10 @@ export const useAuth = () => {
 
   const register = async (name: string, email: string, password: string) => {
     try {
-      // Aquí se haría la llamada al backend
-      console.log('Register:', { name, email, password });
+      const user = await authService.register(name, email, password);
       
-      const mockUser: User = {
-        id: 'user1',
-        name,
-        email
-      };
-      
-      localStorage.setItem('authToken', 'mock-token');
       setAuthState({
-        user: mockUser,
+        user,
         isAuthenticated: true,
         isLoading: false
       });
@@ -111,7 +81,7 @@ export const useAuth = () => {
   };
 
   const logout = () => {
-    localStorage.removeItem('authToken');
+    authService.logout();
     setAuthState({
       user: null,
       isAuthenticated: false,
