@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import Card from '../components/common/Card';
+import { useAuth } from '../hooks/useAuth';
 import { validateEmail } from '../utils/helpers';
 import { ROUTES } from '../utils/constants';
 
 // Página de inicio de sesión
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
+  
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -53,14 +57,16 @@ const Login: React.FC = () => {
     setIsLoading(true);
     
     try {
-      // Aquí se conectará con el backend
-      console.log('Login data:', formData);
+      const result = await login(formData.email, formData.password);
       
-      // Simular llamada al API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Redirigir al chat después del login exitoso
-      window.location.href = ROUTES.CHAT;
+      if (result.success) {
+        navigate(ROUTES.CHAT);
+      } else {
+        setErrors({ 
+          email: result.error || 'Error al iniciar sesión',
+          password: '' 
+        });
+      }
     } catch (error) {
       console.error('Error en login:', error);
     } finally {
@@ -69,7 +75,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4 transition-colors">
       <div className="w-full max-w-md">
         <Card className="text-center" padding="lg">
           {/* Logo y título */}
@@ -77,8 +83,8 @@ const Login: React.FC = () => {
             <div className="flex justify-center mb-4">
               <Heart className="w-16 h-16 text-pink-500" fill="currentColor" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">LoveSpace</h1>
-            <p className="text-gray-600">Tu espacio privado en pareja</p>
+            <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">LoveSpace</h1>
+            <p className="text-gray-600 dark:text-gray-300">Tu espacio privado en pareja</p>
           </div>
 
           {/* Formulario */}
@@ -117,7 +123,7 @@ const Login: React.FC = () => {
 
           {/* Enlace a registro */}
           <div className="mt-6 pt-6 border-t border-pink-200">
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-gray-300">
               ¿No tienes cuenta?{' '}
               <Link 
                 to={ROUTES.REGISTER}

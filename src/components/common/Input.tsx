@@ -28,18 +28,19 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const inputClasses = `
     w-full px-4 py-3 rounded-lg border-2 transition-colors duration-200
+    bg-white dark:bg-gray-700 text-gray-900 dark:text-white
     ${error 
-      ? 'border-red-300 focus:border-red-500' 
-      : 'border-pink-200 focus:border-pink-500'
+      ? 'border-red-300 dark:border-red-500 focus:border-red-500' 
+      : 'border-pink-200 dark:border-gray-600 focus:border-pink-500'
     }
-    ${disabled ? 'bg-gray-100 cursor-not-allowed' : 'bg-white'}
+    ${disabled ? 'bg-gray-100 dark:bg-gray-600 cursor-not-allowed' : ''}
     focus:outline-none focus:ring-2 focus:ring-pink-200
   `;
 
   return (
     <div className={`space-y-2 ${className}`}>
       {label && (
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
         </label>

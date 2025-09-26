@@ -1,5 +1,7 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Heart, User, Settings } from 'lucide-react';
+import { ROUTES } from '../../utils/constants';
 
 interface User {
   name: string;
@@ -14,8 +16,10 @@ interface HeaderProps {
 
 // Header principal de la aplicación
 const Header: React.FC<HeaderProps> = ({ user, onProfileClick, onSettingsClick }) => {
+  const navigate = useNavigate();
+
   return (
-    <header className="bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg">
+    <header className="bg-gradient-to-r from-pink-500 to-purple-600 dark:from-pink-600 dark:to-purple-700 text-white shadow-lg">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -42,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ user, onProfileClick, onSettingsClick }
               </button>
               
               <button 
-                onClick={onSettingsClick}
+                onClick={() => navigate(ROUTES.SETTINGS)}
                 className="p-2 hover:bg-white/20 rounded-lg transition-colors"
                 aria-label="Configuración"
               >

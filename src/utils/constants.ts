@@ -7,7 +7,8 @@ export const ROUTES = {
   ALBUM: '/album',
   VIDEOCALL: '/videocall',
   TIMELINE: '/timeline',
-  AI: '/ai-space'
+  AI: '/ai-space',
+  SETTINGS: '/settings'
 };
 
 export const COLORS = {

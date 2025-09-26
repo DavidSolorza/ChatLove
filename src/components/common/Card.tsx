@@ -40,7 +40,7 @@ const Card: React.FC<CardProps> = ({
   
   return (
     <div className={`
-      bg-white border border-pink-100
+      bg-white dark:bg-gray-800 border border-pink-100 dark:border-gray-700 transition-colors
       ${paddingClasses[padding]}
       ${shadowClasses[shadow]}
       ${roundedClasses[rounded]}
